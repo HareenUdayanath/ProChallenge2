@@ -1,4 +1,7 @@
-﻿namespace TankClient
+﻿using System;
+using System.Collections.Generic;
+using TankClient.Players;
+namespace TankClient
 {
     partial class Form1
     {
@@ -19,11 +22,41 @@
             }
             base.Dispose(disposing);
         }
-
-        public void dispay(string msg)
+        
+        public void display(string msg)
         {
-            this.textBox2.AppendText(msg+"\n");
+            this.textBox3.AppendText(msg+"\n");
 
+        }
+
+        public void displayPlayers(List<Player> playerList) 
+        {
+            this.textBox3.Text = "PlaterID\tPoints\tCoins\tHealth\n";
+            foreach(Player p in playerList)
+            {
+                this.textBox3.AppendText("P" + p.PlayerNo + "\t" + p.Points + "$\t" + p.Cons + "$\t" + p.Health+"%\n");
+            }
+        }
+/*
+        public void displayPlayers(String playerDetailList)
+        {
+            this.textBox3.Text = "PlaterID\tPoints\tCoins\tHealth\n";
+            this.textBox3.AppendText(playerDetailList);
+        }
+*/
+        public void displayMap(string [,] map) {
+
+            this.textBox2.Text = "";
+
+            for(int i=0;i<DecodeOperations.GRID_SIZE;i++)
+            {
+                for (int j = 0; j < DecodeOperations.GRID_SIZE; j++)
+                {
+                    this.textBox2.AppendText(map[j,i]+"  ");
+                }
+                this.textBox2.AppendText("\n");
+            }
+        
         }
 
         #region Windows Form Designer generated code
@@ -43,11 +76,12 @@
             this.button6 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(88, 277);
+            this.button1.Location = new System.Drawing.Point(489, 352);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(53, 41);
             this.button1.TabIndex = 0;
@@ -57,7 +91,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(29, 324);
+            this.button2.Location = new System.Drawing.Point(430, 399);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(53, 41);
             this.button2.TabIndex = 1;
@@ -67,7 +101,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(88, 324);
+            this.button3.Location = new System.Drawing.Point(489, 399);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(53, 41);
             this.button3.TabIndex = 2;
@@ -77,7 +111,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(147, 324);
+            this.button4.Location = new System.Drawing.Point(548, 399);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(53, 41);
             this.button4.TabIndex = 3;
@@ -87,9 +121,9 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(221, 324);
+            this.button5.Location = new System.Drawing.Point(608, 348);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(99, 84);
+            this.button5.Size = new System.Drawing.Size(99, 45);
             this.button5.TabIndex = 4;
             this.button5.Text = "Join";
             this.button5.UseVisualStyleBackColor = true;
@@ -97,17 +131,17 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(345, 335);
+            this.textBox1.Location = new System.Drawing.Point(397, 279);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(92, 20);
+            this.textBox1.Size = new System.Drawing.Size(322, 20);
             this.textBox1.TabIndex = 5;
             this.textBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyUp);
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(29, 371);
+            this.button6.Location = new System.Drawing.Point(608, 400);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(171, 41);
+            this.button6.Size = new System.Drawing.Size(99, 41);
             this.button6.TabIndex = 6;
             this.button6.Text = "SHOOT";
             this.button6.UseVisualStyleBackColor = true;
@@ -115,27 +149,37 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(12, 49);
+            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox2.Location = new System.Drawing.Point(12, 12);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(625, 175);
+            this.textBox2.Size = new System.Drawing.Size(367, 428);
             this.textBox2.TabIndex = 7;
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(231, 272);
+            this.button7.Location = new System.Drawing.Point(608, 305);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(88, 45);
+            this.button7.Size = new System.Drawing.Size(99, 37);
             this.button7.TabIndex = 8;
             this.button7.Text = "Check";
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(397, 12);
+            this.textBox3.Multiline = true;
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(322, 261);
+            this.textBox3.TabIndex = 9;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(649, 420);
+            this.ClientSize = new System.Drawing.Size(731, 453);
+            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.button6);
@@ -163,6 +207,7 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.TextBox textBox3;
     }
 }
 

@@ -12,6 +12,17 @@ namespace TankClient
 {
     class Communicator
     {
+        private static Communicator comm = new Communicator();
+        
+
+        private Communicator()
+        {
+        }
+
+        public static Communicator GetInstance()
+        {
+            return comm;
+        }
         
         public String receiveData()
         {
@@ -40,16 +51,26 @@ namespace TankClient
             return reply;
         }
 
-        public void readData(Form1 form)
+        public void readAndSetData(Form1 form)
         {
+            DecodeOperations dec = DecodeOperations.GetInstance();
             while (true)
             {
-                form.dispay(receiveData());
-
-                //Thread.Sleep(4000);
+                try
+                {
+                    String map = receiveData();
+                    dec.setMap(map);
+                    //form.display(map);
+                    form.displayMap(dec.getMap());
+                    form.displayPlayers(dec.PlayerList);
+                    //Thread.Sleep(4000);
+                }catch(Exception e){
+                    Console.WriteLine(e.Data);
+                }
             }
 
         }
+       
         /*
         public void getAndSend()
         {

@@ -15,11 +15,12 @@ namespace TankClient
     {
         Communicator com;
         Boolean isJoined = false;
+        DecodeOperations dec = DecodeOperations.GetInstance();
 
         public Form1()
         {
             InitializeComponent();
-            this.com = new Communicator();
+            this.com = Communicator.GetInstance();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -52,7 +53,7 @@ namespace TankClient
             {
                 com.sendData(Constants.JOIN);
                 this.textBox1.Text = "JOIN";
-                Thread thread = new Thread(() => com.readData(this));
+                Thread thread = new Thread(() => com.readAndSetData(this));
                 thread.Start();
                 this.isJoined = true;
             }
@@ -100,7 +101,7 @@ namespace TankClient
                 {
                     com.sendData(Constants.JOIN);
                     this.textBox1.Text = "JOIN";
-                    Thread thread = new Thread(() => com.readData(this));
+                    Thread thread = new Thread(() => com.readAndSetData(this));
                     thread.Start();
                     this.isJoined = true;
                 }
@@ -121,7 +122,27 @@ namespace TankClient
 
         private void button7_Click(object sender, EventArgs e)
         {
-            this.textBox1.Text = "♕";
+            com.sendData(Constants.JOIN);
+            /*String map = com.receiveData();
+            this.textBox1.AppendText(map);            
+            dec.setMap(map);                      
+            this.displayMap(dec.getMap());
+
+            map = com.receiveData();
+            this.textBox1.AppendText(map);
+            dec.setMap(map);
+            this.displayMap(dec.getMap());
+
+            map = com.receiveData();
+            this.textBox1.AppendText(map); */
+            int i=0;
+            while(i++<10)
+                this.textBox1.AppendText(com.receiveData()+"\n");
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
