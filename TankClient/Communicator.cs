@@ -71,7 +71,56 @@ namespace TankClient
                     {
                         form.display(msg);                        
                     }
+                    else if (Constants.GAMEOVER.Equals(msg))
+                    {
+                        form.display(msg);
+                    }
+                    else if (Constants.GAMEJUSTFINISHED.Equals(msg))
+                    {
+                        form.display(msg);
+                    }
+                    else if (Constants.NOTSTARTED.Equals(msg))
+                    {
+                        form.display(msg);
+                    }
+                    else if (Constants.INVALIDCELL.Equals(msg))
+                    {
+                        form.display(msg);
+                    }
+                    else if (Constants.NOTACONTESTANT.Equals(msg))
+                    {
+                        form.display(msg);
+                    }
+                    else if (Constants.TOOEARLY.Equals(msg))
+                    {
+                        form.display(msg);
+                    }
+                    else if (Constants.CELLOCCUPIED.Equals(msg))
+                    {
+                        form.display(msg);
+                    }
+                    else if (Constants.HITONOBSTACLE.Equals(msg))
+                    {
+                        form.display(msg);
+                    }
+                    else if (Constants.FALLENTOPIT.Equals(msg))
+                    {
+                        form.display(msg);
+                    }
+                    else if (Constants.NOTALIVE.Equals(msg))
+                    {
+                        form.display(msg);
+                    }
+                    else if (Constants.REQUESTERROR.Equals(msg))
+                    {
+                        form.display(msg);
+                    }
+                    else if (Constants.SERVERERROR.Equals(msg))
+                    {
+                        form.display(msg);
+                    }
                    
+
                     dec.setMap(msg);
                     form.displayMap(dec.getMap());
                     form.displayBrickStates(dec.BrickList);

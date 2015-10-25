@@ -26,7 +26,7 @@ namespace TankClient
         
         public void display(string msg)
         {
-            this.command_txt.Text = msg;
+            this.msg_txt.Text = msg;
 
         }
 
@@ -61,17 +61,18 @@ namespace TankClient
 */
         public void displayMap(string [,] map) {
 
-            this.map_txt.Text = "";
+            String newMap = "";
+           // this.map_txt.Text = "";
 
             for(int i=0;i<DecodeOperations.GRID_SIZE;i++)
             {
                 for (int j = 0; j < DecodeOperations.GRID_SIZE; j++)
                 {
-                    this.map_txt.AppendText(map[j,i]+"  ");
+                    newMap+=(map[j,i]+"  ");
                 }
-                this.map_txt.AppendText("\n");
+                newMap+=("\n");
             }
-        
+            this.map_txt.Text = newMap;
         }
 
         #region Windows Form Designer generated code
@@ -98,7 +99,7 @@ namespace TankClient
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.bricks_txt = new System.Windows.Forms.TextBox();
-            this.button7 = new System.Windows.Forms.Button();
+            this.msg_txt = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
@@ -143,7 +144,7 @@ namespace TankClient
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(608, 362);
+            this.button5.Location = new System.Drawing.Point(608, 367);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(99, 79);
             this.button5.TabIndex = 4;
@@ -153,9 +154,9 @@ namespace TankClient
             // 
             // command_txt
             // 
-            this.command_txt.Location = new System.Drawing.Point(134, 410);
+            this.command_txt.Location = new System.Drawing.Point(110, 428);
             this.command_txt.Name = "command_txt";
-            this.command_txt.Size = new System.Drawing.Size(245, 20);
+            this.command_txt.Size = new System.Drawing.Size(269, 20);
             this.command_txt.TabIndex = 5;
             this.command_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyUp);
             // 
@@ -163,7 +164,7 @@ namespace TankClient
             // 
             this.button6.Location = new System.Drawing.Point(408, 409);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(171, 32);
+            this.button6.Size = new System.Drawing.Size(171, 41);
             this.button6.TabIndex = 6;
             this.button6.Text = "SHOOT";
             this.button6.UseVisualStyleBackColor = true;
@@ -191,50 +192,51 @@ namespace TankClient
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 343);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 13);
+            this.label1.Size = new System.Drawing.Size(73, 13);
             this.label1.TabIndex = 10;
-            this.label1.Text = "brick   = \"▥\"";
+            this.label1.Text = "brick    =  \"▥\"";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 365);
+            this.label2.Location = new System.Drawing.Point(12, 362);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 13);
+            this.label2.Size = new System.Drawing.Size(73, 13);
             this.label2.TabIndex = 11;
-            this.label2.Text = "stone  = \"▦\"";
+            this.label2.Text = "stone   =  \"▦\"";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 388);
+            this.label3.Location = new System.Drawing.Point(12, 381);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 13);
+            this.label3.Size = new System.Drawing.Size(73, 13);
             this.label3.TabIndex = 12;
-            this.label3.Text = "water  = \"▩\"";
+            this.label3.Text = "water   =  \"▩\"";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 410);
+            this.label4.Location = new System.Drawing.Point(11, 402);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(67, 13);
+            this.label4.Size = new System.Drawing.Size(73, 13);
             this.label4.TabIndex = 13;
-            this.label4.Text = "blank  = \"▢\"";
+            this.label4.Text = "blank   =  \"▢\"";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(131, 343);
+            this.label5.Location = new System.Drawing.Point(10, 419);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(75, 13);
             this.label5.TabIndex = 14;
             this.label5.Text = "coins     = \"◉\"";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(131, 365);
+            this.label6.Location = new System.Drawing.Point(11, 437);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(76, 13);
             this.label6.TabIndex = 15;
@@ -248,22 +250,20 @@ namespace TankClient
             this.bricks_txt.Size = new System.Drawing.Size(320, 176);
             this.bricks_txt.TabIndex = 16;
             // 
-            // button7
+            // msg_txt
             // 
-            this.button7.Location = new System.Drawing.Point(275, 355);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 17;
-            this.button7.Text = "button7";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click_2);
+            this.msg_txt.Location = new System.Drawing.Point(110, 343);
+            this.msg_txt.Multiline = true;
+            this.msg_txt.Name = "msg_txt";
+            this.msg_txt.Size = new System.Drawing.Size(269, 79);
+            this.msg_txt.TabIndex = 17;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(731, 453);
-            this.Controls.Add(this.button7);
+            this.ClientSize = new System.Drawing.Size(731, 463);
+            this.Controls.Add(this.msg_txt);
             this.Controls.Add(this.bricks_txt);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -306,7 +306,7 @@ namespace TankClient
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox bricks_txt;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.TextBox msg_txt;
     }
 }
 

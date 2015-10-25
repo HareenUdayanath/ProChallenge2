@@ -17,7 +17,15 @@ namespace TankClient.Contents
             this.damageLevel = 0;
         }
 
-       
+        public int PositionX
+        {
+            get { return X; }            
+        }
+
+        public int PositionY
+        {
+            get { return Y; }
+        }
 
         public int DamageLevel
         {

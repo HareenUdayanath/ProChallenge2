@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TankClient.Support
 {
-    class StaticItem
+    public class StaticItem
     {
         private int positionX;
         private int positionY;
@@ -17,7 +17,15 @@ namespace TankClient.Support
             positionX = x;
             positionY = y;
         }
+        public int X
+        {
+            get { return positionX; }
+            
+        }
+        public int Y
+        {
+            get { return positionY; }
 
-
+        }
     }
 }
