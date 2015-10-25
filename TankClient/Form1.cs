@@ -13,9 +13,9 @@ namespace TankClient
 {
     public partial class Form1 : Form
     {
-        Communicator com;
-        Boolean isJoined = false;
-        DecodeOperations dec = DecodeOperations.GetInstance();
+        private Communicator com;
+        private Boolean isJoined = false;
+        private DecodeOperations dec = DecodeOperations.GetInstance();
 
         public Form1()
         {
@@ -25,25 +25,32 @@ namespace TankClient
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.textBox1.Text = "UP";
+            this.command_txt.Text = "UP";
             com.sendData(Constants.UP);
+        }
+
+
+        public Boolean IsJoined
+        {
+            get { return isJoined; }
+            set { isJoined = value; }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.textBox1.Text = "LEFT";
+            this.command_txt.Text = "LEFT";
             com.sendData(Constants.LEFT);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.textBox1.Text = "DOWN";
+            this.command_txt.Text = "DOWN";
             com.sendData(Constants.DOWN);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            this.textBox1.Text = "RIGHT";
+            this.command_txt.Text = "RIGHT";
             com.sendData(Constants.RIGHT);
         }
 
@@ -51,15 +58,21 @@ namespace TankClient
         {
             if (!isJoined)
             {
-                com.sendData(Constants.JOIN);
-                this.textBox1.Text = "JOIN";
-                Thread thread = new Thread(() => com.readAndSetData(this));
-                thread.Start();
-                this.isJoined = true;
+                try
+                {
+                    com.sendData(Constants.JOIN);
+                    this.command_txt.Text = "JOIN";
+                    Thread thread = new Thread(() => com.readAndSetData(this));
+                    thread.Start();
+                    this.isJoined = true;
+                }
+                catch (Exception ex) 
+                {
+                }
             }
             else
             {
-                this.textBox1.Text = "Already Joined";
+                this.command_txt.Text = "Already Joined";
             }
            
 
@@ -67,8 +80,9 @@ namespace TankClient
 
         private void button6_Click(object sender, EventArgs e)
         {
-            this.textBox1.Text = "SHOOT";
+            this.command_txt.Text = "SHOOT";
             com.sendData(Constants.SHOOT);
+            
         }
 
         private void textBox1_KeyUp(object sender, KeyEventArgs e)
@@ -76,22 +90,22 @@ namespace TankClient
             
             if (e.KeyCode == Keys.Up)
             {
-                this.textBox1.Text = "UP";
+                this.command_txt.Text = "UP";
                 com.sendData(Constants.UP);
             }
             else if (e.KeyCode == Keys.Down)
             {
-                this.textBox1.Text = "DOWN";
+                this.command_txt.Text = "DOWN";
                 com.sendData(Constants.DOWN);
             }
             else if (e.KeyCode == Keys.Left)
             {
-                this.textBox1.Text = "LEFT";
+                this.command_txt.Text = "LEFT";
                 com.sendData(Constants.LEFT);
             }
             else if (e.KeyCode == Keys.Right)
             {
-                this.textBox1.Text = "RIGHT";
+                this.command_txt.Text = "RIGHT";
                 com.sendData(Constants.RIGHT);
             }
             else if (e.KeyCode == Keys.J)
@@ -99,23 +113,29 @@ namespace TankClient
 
                 if (!isJoined)
                 {
-                    com.sendData(Constants.JOIN);
-                    this.textBox1.Text = "JOIN";
-                    Thread thread = new Thread(() => com.readAndSetData(this));
-                    thread.Start();
-                    this.isJoined = true;
+                    try
+                    {
+                        com.sendData(Constants.JOIN);
+                        this.command_txt.Text = "JOIN";
+                        Thread thread = new Thread(() => com.readAndSetData(this));
+                        thread.Start();
+                        this.isJoined = true;
+                    }
+                    catch (Exception ex)
+                    {
+                    }
                 }
                 else {
-                    this.textBox1.Text = "Already Joined";
+                    this.command_txt.Text = "Already Joined";
                 }
             }
             else if (e.KeyCode == Keys.Space)
             {
-                this.textBox1.Text = "SHOOT";
+                this.command_txt.Text = "SHOOT";
                 com.sendData(Constants.SHOOT);
             }
             else {
-                this.textBox1.Text = "";
+                this.command_txt.Text = "";
             }
 
         }
@@ -137,12 +157,34 @@ namespace TankClient
             this.textBox1.AppendText(map); */
             int i=0;
             while(i++<10)
-                this.textBox1.AppendText(com.receiveData()+"\n");
+                this.command_txt.AppendText(com.receiveData()+"\n");
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button7_Click_1(object sender, EventArgs e)
+        {
+            /*Image image = Image.FromFile(@"Tank2.png");
+            // Set the PictureBox image property to this image.
+            // ... Then, adjust its height and width properties.
+            pictureBox1.Image = image;
+            pictureBox1.Height = image.Height;
+            pictureBox1.Width = image.Width;*/
+            //pictureBox1.Image = new Bitmap(@"C:\Users\Asus\documents\visual studio 2013\Projects\TankClient\TankClient\Tank2.png");
+            //pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;        
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button7_Click_2(object sender, EventArgs e)
+        {
+            this.displayInMap("Hello World");
         }
     }
 }

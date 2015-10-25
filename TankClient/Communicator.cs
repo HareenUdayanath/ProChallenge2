@@ -34,7 +34,7 @@ namespace TankClient
             {
                 NetworkStream stream = new NetworkStream(s);
                 List<Byte> inputStr = new List<byte>();
-                Console.WriteLine("connected to server");
+                //Console.WriteLine("connected to server");
                 int asw = 0;
                 while (asw != -1)
                 {
@@ -43,7 +43,7 @@ namespace TankClient
                 }
 
                 reply = Encoding.UTF8.GetString(inputStr.ToArray());
-                Console.WriteLine(reply);
+                //Console.WriteLine(reply);
                 stream.Close();
                 s.Close();
                 listner.Stop();
@@ -58,12 +58,26 @@ namespace TankClient
             {
                 try
                 {
-                    String map = receiveData();
-                    dec.setMap(map);
-                    //form.display(map);
+                    String msg = receiveData();
+                    if (Constants.PLAYERSFULL.Equals(msg))
+                    {
+                        form.display(msg);                        
+                    }
+                    else if (Constants.ALREADYADDED.Equals(msg))
+                    {
+                        form.display(msg);                        
+                    }
+                    else if (Constants.GAMESTARTED.Equals(msg))
+                    {
+                        form.display(msg);                        
+                    }
+                   
+                    dec.setMap(msg);
                     form.displayMap(dec.getMap());
+                    form.displayBrickStates(dec.BrickList);
                     form.displayPlayers(dec.PlayerList);
-                    //Thread.Sleep(4000);
+                    
+                    
                 }catch(Exception e){
                     Console.WriteLine(e.Data);
                 }

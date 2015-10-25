@@ -50,6 +50,9 @@
     <Compile Include="Communicator.cs" />
     <Compile Include="Contents\Brick.cs" />
     <Compile Include="Contents\Coin.cs" />
+    <Compile Include="Contents\LifePack.cs" />
+    <Compile Include="Contents\Stone.cs" />
+    <Compile Include="Contents\Water.cs" />
     <Compile Include="Costants.cs" />
     <Compile Include="Decoder.cs" />
     <Compile Include="Form1.cs">
@@ -61,6 +64,8 @@
     <Compile Include="Players\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Support\DynamicItem.cs" />
+    <Compile Include="Support\StaticItem.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

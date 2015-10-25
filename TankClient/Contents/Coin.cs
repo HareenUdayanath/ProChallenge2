@@ -3,33 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TankClient.Support;
 
 namespace TankClient.Contents
 {
-    class Coin
+    class Coin :DynamicItem
     {
-        private int positionX;
-        private int positionY;
+       
         private int value;
+
+        public Coin(int x, int y,int val):base(x,y) 
+        {
+            this.value = val;
+        }
 
         public int Value
         {
-            get { return this.value; }
-            set { this.value = value; }
+            get { return this.value; }            
         }
 
-        public int PositionY
-        {
-            get { return positionY; }
-            set { positionY = value; }
-        }
-       
-
-        public int PositionX
-        {
-            get { return positionX; }
-            set { positionX = value; }
-        }
-       
     }
 }

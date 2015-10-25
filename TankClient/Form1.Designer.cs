@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TankClient.Contents;
 using TankClient.Players;
 namespace TankClient
 {
@@ -25,16 +26,30 @@ namespace TankClient
         
         public void display(string msg)
         {
-            this.textBox3.AppendText(msg+"\n");
+            this.command_txt.Text = msg;
 
+        }
+
+        public void displayInMap(String msg) 
+        {
+            this.map_txt.Text = "  "+msg;
+        }
+
+        public void displayBrickStates(List<Brick> brickList) 
+        {
+            this.bricks_txt.Text = "Brick Position(x,y)\tDamage Level\n";
+            foreach (Brick b in brickList)
+            {
+                this.bricks_txt.AppendText("   (" +b.PositionX + "," +b.PositionY + ")\t\t\t" + b.DamageLevel + "%\n");
+            }
         }
 
         public void displayPlayers(List<Player> playerList) 
         {
-            this.textBox3.Text = "PlaterID\tPoints\tCoins\tHealth\n";
+            this.players_txt.Text = "PlaterID\tPoints\tCoins\tHealth\n";
             foreach(Player p in playerList)
             {
-                this.textBox3.AppendText("P" + p.PlayerNo + "\t" + p.Points + "$\t" + p.Cons + "$\t" + p.Health+"%\n");
+                this.players_txt.AppendText("P" + p.PlayerNo + "\t" + p.Points + "$\t" + p.Cons + "$\t" + p.Health+"%\n");
             }
         }
 /*
@@ -46,15 +61,15 @@ namespace TankClient
 */
         public void displayMap(string [,] map) {
 
-            this.textBox2.Text = "";
+            this.map_txt.Text = "";
 
             for(int i=0;i<DecodeOperations.GRID_SIZE;i++)
             {
                 for (int j = 0; j < DecodeOperations.GRID_SIZE; j++)
                 {
-                    this.textBox2.AppendText(map[j,i]+"  ");
+                    this.map_txt.AppendText(map[j,i]+"  ");
                 }
-                this.textBox2.AppendText("\n");
+                this.map_txt.AppendText("\n");
             }
         
         }
@@ -72,16 +87,23 @@ namespace TankClient
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.command_txt = new System.Windows.Forms.TextBox();
             this.button6 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.map_txt = new System.Windows.Forms.TextBox();
+            this.players_txt = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.bricks_txt = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(489, 352);
+            this.button1.Location = new System.Drawing.Point(467, 315);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(53, 41);
             this.button1.TabIndex = 0;
@@ -91,7 +113,7 @@ namespace TankClient
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(430, 399);
+            this.button2.Location = new System.Drawing.Point(408, 362);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(53, 41);
             this.button2.TabIndex = 1;
@@ -101,7 +123,7 @@ namespace TankClient
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(489, 399);
+            this.button3.Location = new System.Drawing.Point(467, 362);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(53, 41);
             this.button3.TabIndex = 2;
@@ -111,7 +133,7 @@ namespace TankClient
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(548, 399);
+            this.button4.Location = new System.Drawing.Point(526, 362);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(53, 41);
             this.button4.TabIndex = 3;
@@ -121,69 +143,138 @@ namespace TankClient
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(608, 348);
+            this.button5.Location = new System.Drawing.Point(608, 362);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(99, 45);
+            this.button5.Size = new System.Drawing.Size(99, 79);
             this.button5.TabIndex = 4;
             this.button5.Text = "Join";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
-            // textBox1
+            // command_txt
             // 
-            this.textBox1.Location = new System.Drawing.Point(397, 279);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(322, 20);
-            this.textBox1.TabIndex = 5;
-            this.textBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyUp);
+            this.command_txt.Location = new System.Drawing.Point(134, 410);
+            this.command_txt.Name = "command_txt";
+            this.command_txt.Size = new System.Drawing.Size(245, 20);
+            this.command_txt.TabIndex = 5;
+            this.command_txt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyUp);
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(608, 400);
+            this.button6.Location = new System.Drawing.Point(408, 409);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(99, 41);
+            this.button6.Size = new System.Drawing.Size(171, 32);
             this.button6.TabIndex = 6;
             this.button6.Text = "SHOOT";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
-            // textBox2
+            // map_txt
             // 
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(12, 12);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(367, 428);
-            this.textBox2.TabIndex = 7;
+            this.map_txt.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.map_txt.Location = new System.Drawing.Point(12, 12);
+            this.map_txt.Multiline = true;
+            this.map_txt.Name = "map_txt";
+            this.map_txt.Size = new System.Drawing.Size(367, 319);
+            this.map_txt.TabIndex = 7;
+            // 
+            // players_txt
+            // 
+            this.players_txt.Location = new System.Drawing.Point(397, 12);
+            this.players_txt.Multiline = true;
+            this.players_txt.Name = "players_txt";
+            this.players_txt.Size = new System.Drawing.Size(322, 115);
+            this.players_txt.TabIndex = 9;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 343);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(67, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "brick   = \"▥\"";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 365);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(67, 13);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "stone  = \"▦\"";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 388);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(67, 13);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "water  = \"▩\"";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 410);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(67, 13);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "blank  = \"▢\"";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(131, 343);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(75, 13);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "coins     = \"◉\"";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(131, 365);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(76, 13);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "lifePack = \"☩\"";
+            // 
+            // bricks_txt
+            // 
+            this.bricks_txt.Location = new System.Drawing.Point(398, 133);
+            this.bricks_txt.Multiline = true;
+            this.bricks_txt.Name = "bricks_txt";
+            this.bricks_txt.Size = new System.Drawing.Size(320, 176);
+            this.bricks_txt.TabIndex = 16;
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(608, 305);
+            this.button7.Location = new System.Drawing.Point(275, 355);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(99, 37);
-            this.button7.TabIndex = 8;
-            this.button7.Text = "Check";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 17;
+            this.button7.Text = "button7";
             this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(397, 12);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(322, 261);
-            this.textBox3.TabIndex = 9;
+            this.button7.Click += new System.EventHandler(this.button7_Click_2);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(731, 453);
-            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.button7);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.bricks_txt);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.players_txt);
+            this.Controls.Add(this.map_txt);
             this.Controls.Add(this.button6);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.command_txt);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -191,6 +282,7 @@ namespace TankClient
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "TankGame";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -203,11 +295,18 @@ namespace TankClient
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox command_txt;
         private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox map_txt;
+        private System.Windows.Forms.TextBox players_txt;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox bricks_txt;
         private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.TextBox textBox3;
     }
 }
 
