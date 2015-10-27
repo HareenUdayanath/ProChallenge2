@@ -59,67 +59,70 @@ namespace TankClient
                 try
                 {
                     String msg = receiveData();
-                    if (Constants.PLAYERSFULL.Equals(msg))
+                    if (Constants.PLAYERSFULL.Equals(msg.Remove(msg.Length-1)))
                     {
-                        form.display(msg);                        
+                        form.display(msg.Remove(msg.Length-2));                        
                     }
-                    else if (Constants.ALREADYADDED.Equals(msg))
+                    else if (Constants.ALREADYADDED.Equals(msg.Remove(msg.Length-1)))
                     {
-                        form.display(msg);                        
+                        form.display(msg.Remove(msg.Length-2));                        
                     }
-                    else if (Constants.GAMESTARTED.Equals(msg))
+                    else if (Constants.GAMESTARTED.Equals(msg.Remove(msg.Length-1)))
                     {
-                        form.display(msg);                        
+                        form.display(msg.Remove(msg.Length-2));                        
                     }
-                    else if (Constants.GAMEOVER.Equals(msg))
+                    else if (Constants.GAMEOVER.Equals(msg.Remove(msg.Length-1)))
                     {
-                        form.display(msg);
+                        form.display(msg.Remove(msg.Length-2));
                     }
-                    else if (Constants.GAMEJUSTFINISHED.Equals(msg))
+                    else if (Constants.GAMEJUSTFINISHED.Equals(msg.Remove(msg.Length-1)))
                     {
-                        form.display(msg);
+                        form.display(msg.Remove(msg.Length-2));
                     }
-                    else if (Constants.NOTSTARTED.Equals(msg))
+                    else if (Constants.NOTSTARTED.Equals(msg.Remove(msg.Length-1)))
                     {
-                        form.display(msg);
+                        form.display(msg.Remove(msg.Length-2));
                     }
-                    else if (Constants.INVALIDCELL.Equals(msg))
+                    else if (Constants.INVALIDCELL.Equals(msg.Remove(msg.Length-1)))
                     {
-                        form.display(msg);
+                        form.display(msg.Remove(msg.Length-2));
                     }
-                    else if (Constants.NOTACONTESTANT.Equals(msg))
+                    else if (Constants.NOTACONTESTANT.Equals(msg.Remove(msg.Length-1)))
                     {
-                        form.display(msg);
+                        form.display(msg.Remove(msg.Length-2));
                     }
-                    else if (Constants.TOOEARLY.Equals(msg))
+                    else if (Constants.TOOEARLY.Equals(msg.Remove(msg.Length-1)))
                     {
-                        form.display(msg);
+                        form.display(msg.Remove(msg.Length-2));
                     }
-                    else if (Constants.CELLOCCUPIED.Equals(msg))
+                    else if (Constants.CELLOCCUPIED.Equals(msg.Remove(msg.Length-1)))
                     {
-                        form.display(msg);
+                        form.display(msg.Remove(msg.Length-2));
                     }
-                    else if (Constants.HITONOBSTACLE.Equals(msg))
+                    else if (Constants.HITONOBSTACLE.Equals(msg.Remove(msg.Length-1)))
                     {
-                        form.display(msg);
+                        form.display(msg.Remove(msg.Length-2));
                     }
-                    else if (Constants.FALLENTOPIT.Equals(msg))
+                    else if (Constants.FALLENTOPIT.Equals(msg.Remove(msg.Length-1)))
                     {
-                        form.display(msg);
+                        form.display(msg.Remove(msg.Length-2));
                     }
-                    else if (Constants.NOTALIVE.Equals(msg))
+                    else if (Constants.NOTALIVE.Equals(msg.Remove(msg.Length-1)))
                     {
-                        form.display(msg);
+                        form.display(msg.Remove(msg.Length-2));
                     }
-                    else if (Constants.REQUESTERROR.Equals(msg))
+                    else if (Constants.REQUESTERROR.Equals(msg.Remove(msg.Length-1)))
                     {
-                        form.display(msg);
+                        form.display(msg.Remove(msg.Length-2));
                     }
-                    else if (Constants.SERVERERROR.Equals(msg))
+                    else if (Constants.SERVERERROR.Equals(msg.Remove(msg.Length-1)))
                     {
-                        form.display(msg);
+                        form.display(msg.Remove(msg.Length-2));
                     }
-                   
+                    else 
+                    {
+                        form.display("");
+                    }
 
                     dec.setMap(msg);
                     form.displayMap(dec.getMap());
