@@ -68,13 +68,14 @@ namespace TankClient
             {
                 for (int j = 0; j < DecodeOperations.GRID_SIZE; j++)
                 {
-                    newMap+=(map[j,i]+"  ");
+                    newMap+=(map[i,j]+"  ");
                 }
-                newMap+=("\n");
+                newMap+="\r\n";
             }
             this.map_txt.Text = newMap;
+            
         }
-
+        
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -262,6 +263,7 @@ namespace TankClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(731, 463);
             this.Controls.Add(this.msg_txt);
             this.Controls.Add(this.bricks_txt);

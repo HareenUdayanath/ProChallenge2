@@ -109,23 +109,23 @@ namespace TankClient
             foreach (String bri in things[2].Split(';')) { 
                 int x = Int32.Parse(bri[0].ToString());
                 int y = Int32.Parse(bri[2].ToString());
-                this.brickList.Add(new Brick(x,y));
-                map[x, y] = brickSimbol;
+                this.brickList.Add(new Brick(y,x));
+                map[y, x] = brickSimbol;
             }
             foreach (String sto in things[3].Split(';'))
             {
                 int x = Int32.Parse(sto[0].ToString());
                 int y = Int32.Parse(sto[2].ToString());
-                this.stoneList.Add(new Stone(x, y));
-                map[x, y] = stoneSimbol;
+                this.stoneList.Add(new Stone(y, x));
+                map[y, x] = stoneSimbol;
             }
             things[4] = things[4].Remove(things[4].Length - 2);
             foreach (String wat in things[4].Split(';'))
             {
                 int x = Int32.Parse(wat[0].ToString());
                 int y = Int32.Parse(wat[2].ToString());
-                this.waterList.Add(new Water(x,y));
-                map[x, y] = waterSimbol;
+                this.waterList.Add(new Water(y, x));
+                map[y, x] = waterSimbol;
             }
             
         }
@@ -146,10 +146,10 @@ namespace TankClient
                 int y = Int32.Parse(details[1][2].ToString());
                 int d = Int32.Parse(details[2][0].ToString());
 
-                Player player = new Player(p,x,y,d);
+                Player player = new Player(p, y, x, d);
                 this.playerList.Add(player);
 
-                map[x, y] = playerDir[d];
+                map[y, x] = playerDir[d];
 
             }
 
@@ -182,9 +182,9 @@ namespace TankClient
 
                 map[playerList[i - 1].PositionX, playerList[i - 1].PositionY] = blankSimbol;
 
-                playerList[i - 1].setAll(x, y, d, ws, h, c, p);                
+                playerList[i - 1].setAll(y, x, d, ws, h, c, p);                
                 if(h!=0)
-                    map[x, y] = playerDir[d];
+                    map[y, x] = playerDir[d];
             }
             
            
@@ -196,12 +196,12 @@ namespace TankClient
                 int y = Int32.Parse(brd[1]);
                 int d = Int32.Parse(brd[2]);
                 if (d == 4)
-                {                    
-                    map[x, y] = blankSimbol;
+                {
+                    map[y, x] = blankSimbol;
                 }
-                                    
-                    
-                setDamageLevel(x,y,d);
+
+
+                setDamageLevel(y, x, d);
             }
 
          
@@ -217,11 +217,11 @@ namespace TankClient
             int y = Int32.Parse(coin[1][2].ToString());
             int lt = Int32.Parse(coin[2]);
             int v = Int32.Parse(coin[3].Remove(coin[3].Length-2));
-            Coin c = new Coin(x, y, v);
+            Coin c = new Coin(y, x, v);
             c.LifeTime = lt;
             this.coinList.Add(c);
-            map[x, y] = coinSimbol;
-            Thread coinThread = new Thread(() =>setToBlank(x,y,lt));
+            map[y, x] = coinSimbol;
+            Thread coinThread = new Thread(() =>setToBlank(y,x,lt));
             coinThread.Start();
         }
 
@@ -231,10 +231,10 @@ namespace TankClient
 
             int x = Int32.Parse(lifePack[1][0].ToString());
             int y = Int32.Parse(lifePack[1][2].ToString());
-            int lt = Int32.Parse(lifePack[2].Remove(lifePack[2].Length-2));           
+            int lt = Int32.Parse(lifePack[2].Remove(lifePack[2].Length-2));
 
-            map[x, y] = lifePackSimbol;
-            Thread lifePackThread = new Thread(() => setToBlank(x, y, lt));
+            map[y, x] = lifePackSimbol;
+            Thread lifePackThread = new Thread(() => setToBlank(y, x, lt));
             lifePackThread.Start();
         }
 
@@ -267,7 +267,7 @@ namespace TankClient
         private void setToBlank(int x,int y,int lt) 
         {
             Thread.Sleep(lt);
-            map[x, y] = blankSimbol;    
+            map[y, x] = blankSimbol;    
         }
 
         private void vanishCoin() 
