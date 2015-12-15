@@ -68,12 +68,14 @@ namespace TankClient
                         form.display(msg.Remove(msg.Length-2));                        
                     }
                     else if (Constants.GAMESTARTED.Equals(msg.Remove(msg.Length-1)))
-                    {
+                    {                                                
                         form.display(msg.Remove(msg.Length-2));                        
                     }
                     else if (Constants.GAMEOVER.Equals(msg.Remove(msg.Length-1)))
                     {
+                        DecodeOperations.clock.stopClock();
                         form.display(msg.Remove(msg.Length-2));
+                        break;
                     }
                     else if (Constants.GAMEJUSTFINISHED.Equals(msg.Remove(msg.Length-1)))
                     {
@@ -149,7 +151,8 @@ namespace TankClient
         }*/
         public void sendData(String msgS)
         {
-
+            if (msgS == null)
+                return;
             TcpClient socket = new TcpClient();
             socket.Connect("127.0.0.1", 6000);
             if (socket.Connected)

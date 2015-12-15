@@ -4,32 +4,35 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TankClient.AI;
 using TankClient.Contents;
 using TankClient.Players;
+using TankClient.Support;
 
 namespace TankClient
 {
     class DecodeOperations
     {
         private bool isInit = false;
-        private String playerNo = null;
-        private String brickSimbol = "▥";
-        private String stoneSimbol = "▦";
-        private String waterSimbol = "▩";
-        private String blankSimbol = "▢";
-        private String coinSimbol = "◉";
-        private String lifePackSimbol = "☩";
+        private int playerNo = -1;      
+        public static  String brickSimbol = "▥";
+        public static String stoneSimbol = "▦";
+        public static String waterSimbol = "▩";
+        public static String blankSimbol = "▢";
+        public static String coinSimbol = "◉";
+        public static String lifePackSimbol = "☩";
 
-        private String[] playerDir = { "▲", "►", "▼", "◄" };
-
+        public static String[] playerDir = { "▲", "►", "▼", "◄" };
         public static int GRID_SIZE = 10;
+
         private String[,] map;
         private List<Player> playerList;
-        private List<Brick> brickList;        
+        private List<Brick> brickList;
         private List<Coin> coinList;
+        private List<LifePack> lifePackList;
         private List<Stone> stoneList;
         private List<Water> waterList;
-      
+        public static Clock clock = new Clock();
      
         private static DecodeOperations dec = new DecodeOperations();
         
@@ -39,6 +42,7 @@ namespace TankClient
             this.playerList = new List<Player>();
             this.brickList = new List<Brick>();
             this.coinList = new List<Coin>();
+            this.lifePackList = new List<LifePack>();
             this.stoneList = new List<Stone>();
             this.waterList = new List<Water>();
         }
@@ -55,10 +59,57 @@ namespace TankClient
 
         internal List<Brick> BrickList
         {
-            get { return brickList; }
-            set { brickList = value; }
+            get { return brickList; }            
         }
 
+        internal List<Coin> CoinList
+        {
+            get { return coinList; }
+        }
+
+        internal List<Stone> StoneList
+        {
+            get { return stoneList; }
+        }
+
+        internal List<Water> WaterList
+        {
+            get { return waterList; }           
+        }
+
+        public int PlayerNo
+        {
+            get { return playerNo; }            
+        }
+
+        public Coin getCoinAt(int x,int y) 
+        {
+            foreach(Coin c in coinList)
+            {
+                if (c.PositionX == x && c.PositionY == y)
+                    return c;
+            }
+            return null;
+        }
+        public LifePack getLifePackAt(int x, int y)
+        {
+            foreach (LifePack lp in lifePackList)
+            {
+                if (lp.PositionX == x && lp.PositionY == y)
+                    return lp;
+            }
+            return null;
+        }
+
+        public Player getPlayer(int no) {
+            if (no <= this.playerList.Count)
+            {
+                return this.playerList[no];
+            }
+            else {
+                return null;
+            }
+        }
         public void setMap(String msg) {
             
             if (!isInit)
@@ -73,6 +124,7 @@ namespace TankClient
                     }
                 case 'S':
                     {
+                        DecodeOperations.clock.startClock();
                         setPlayer(msg); break;
                     }
                 case 'G':
@@ -104,19 +156,19 @@ namespace TankClient
         private void setEnvironment(String msg)
         {
             String[] things = msg.Split(':');
-            playerNo = things[1][1].ToString();
+            playerNo = Int32.Parse(things[1][1].ToString());
 
             foreach (String bri in things[2].Split(';')) { 
                 int x = Int32.Parse(bri[0].ToString());
                 int y = Int32.Parse(bri[2].ToString());
-                this.brickList.Add(new Brick(y,x));
+                this.brickList.Add(new Brick(x,y));
                 map[y, x] = brickSimbol;
             }
             foreach (String sto in things[3].Split(';'))
             {
                 int x = Int32.Parse(sto[0].ToString());
                 int y = Int32.Parse(sto[2].ToString());
-                this.stoneList.Add(new Stone(y, x));
+                this.stoneList.Add(new Stone(x, y));
                 map[y, x] = stoneSimbol;
             }
             things[4] = things[4].Remove(things[4].Length - 2);
@@ -124,7 +176,7 @@ namespace TankClient
             {
                 int x = Int32.Parse(wat[0].ToString());
                 int y = Int32.Parse(wat[2].ToString());
-                this.waterList.Add(new Water(y, x));
+                this.waterList.Add(new Water(x, y));
                 map[y, x] = waterSimbol;
             }
             
@@ -146,7 +198,7 @@ namespace TankClient
                 int y = Int32.Parse(details[1][2].ToString());
                 int d = Int32.Parse(details[2][0].ToString());
 
-                Player player = new Player(p, y, x, d);
+                Player player = new Player(p, x, y, d);
                 this.playerList.Add(player);
 
                 map[y, x] = playerDir[d];
@@ -180,9 +232,9 @@ namespace TankClient
                 int c = Int32.Parse(playerDetails[5]);
                 int p = Int32.Parse(playerDetails[6]);
 
-                map[playerList[i - 1].PositionX, playerList[i - 1].PositionY] = blankSimbol;
+                map[playerList[i - 1].PositionY, playerList[i - 1].PositionX] = blankSimbol;
 
-                playerList[i - 1].setAll(y, x, d, ws, h, c, p);                
+                playerList[i - 1].setAll(x, y, d, ws, h, c, p);                
                 if(h!=0)
                     map[y, x] = playerDir[d];
             }
@@ -199,12 +251,8 @@ namespace TankClient
                 {
                     map[y, x] = blankSimbol;
                 }
-
-
                 setDamageLevel(y, x, d);
-            }
-
-         
+            }        
                 
         }
        
@@ -217,11 +265,12 @@ namespace TankClient
             int y = Int32.Parse(coin[1][2].ToString());
             int lt = Int32.Parse(coin[2]);
             int v = Int32.Parse(coin[3].Remove(coin[3].Length-2));
-            Coin c = new Coin(y, x, v);
+            Coin c = new Coin(x, y, v);
             c.LifeTime = lt;
+            c.AppearTime = clock.getTime();
             this.coinList.Add(c);
             map[y, x] = coinSimbol;
-            Thread coinThread = new Thread(() =>setToBlank(y,x,lt));
+            Thread coinThread = new Thread(() =>disappearItem(c));
             coinThread.Start();
         }
 
@@ -232,9 +281,12 @@ namespace TankClient
             int x = Int32.Parse(lifePack[1][0].ToString());
             int y = Int32.Parse(lifePack[1][2].ToString());
             int lt = Int32.Parse(lifePack[2].Remove(lifePack[2].Length-2));
-
+            LifePack lp = new LifePack(x,y);
+            lp.LifeTime = lt;
+            lp.AppearTime = clock.getTime();
+            this.lifePackList.Add(lp);
             map[y, x] = lifePackSimbol;
-            Thread lifePackThread = new Thread(() => setToBlank(y, x, lt));
+            Thread lifePackThread = new Thread(() => disappearItem(lp));
             lifePackThread.Start();
         }
 
@@ -264,15 +316,17 @@ namespace TankClient
             }
         }
 
-        private void setToBlank(int x,int y,int lt) 
+        private void disappearItem(DynamicItem item) 
         {
-            Thread.Sleep(lt);
-            map[y, x] = blankSimbol;    
+            Thread.Sleep(item.LifeTime);
+            map[item.PositionY,item.PositionX] = blankSimbol;
+            if (item is Coin)
+                this.coinList.Remove((Coin)item);
+            else if(item is LifePack)
+                this.lifePackList.Remove((LifePack)item);
+
         }
 
-        private void vanishCoin() 
-        {
-        
-        }
+       
     }
 }

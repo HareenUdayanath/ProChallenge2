@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TankClient.AI;
+using TankClient.Players;
 
 namespace TankClient
 {
@@ -16,11 +18,13 @@ namespace TankClient
         private Communicator com;
         private Boolean isJoined = false;
         private DecodeOperations dec = DecodeOperations.GetInstance();
+        private Controller con = null;
 
         public Form1()
         {
             InitializeComponent();
             this.com = Communicator.GetInstance();
+            this.con = Controller.GetInstance();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -63,7 +67,11 @@ namespace TankClient
                     com.sendData(Constants.JOIN);
                     this.command_txt.Text = "JOIN";
                     Thread thread = new Thread(() => com.readAndSetData(this));
+                    Thread threadDo = new Thread(() => con.controll());
+                    Thread threadShoot = new Thread(() => con.shoot());
                     thread.Start();
+                    //threadDo.Start();
+                    //threadShoot.Start();
                     this.isJoined = true;
                 }
                 catch (Exception ex) 
@@ -165,31 +173,60 @@ namespace TankClient
 
         }
 
-        private void button7_Click_1(object sender, EventArgs e)
-        {
-            /*Image image = Image.FromFile(@"Tank2.png");
-            // Set the PictureBox image property to this image.
-            // ... Then, adjust its height and width properties.
-            pictureBox1.Image = image;
-            pictureBox1.Height = image.Height;
-            pictureBox1.Width = image.Width;*/
-            //pictureBox1.Image = new Bitmap(@"C:\Users\Asus\documents\visual studio 2013\Projects\TankClient\TankClient\Tank2.png");
-            //pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;        
-        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
         }
 
-        private void button7_Click_2(object sender, EventArgs e)
+        private void goBtn_Click(object sender, EventArgs e)
         {
-            this.displayInMap("Hello World");
+            DecodeOperations dc = DecodeOperations.GetInstance();
+            
+            Controller con = Controller.GetInstance();
+            Player myPlayer = dc.getPlayer(dc.PlayerNo);
+            Console.WriteLine("A");
+            MapItem[,] itList = con.createMapItemList(dc.getMap());
+            Console.WriteLine("B");
+           /* int x = Int32.Parse(this.goTxt.Text.Split(',')[0]);
+            int y = Int32.Parse(this.goTxt.Text.Split(',')[1]);
+            Console.WriteLine("X: "+myPlayer.PositionX);
+            Console.WriteLine("Y: "+myPlayer.PositionY);
+            Console.WriteLine("NX: "+x);
+            Console.WriteLine("NY: "+y);
+            List<MapItem> path = con.getPath(itList, itList[myPlayer.PositionY,myPlayer.PositionX], itList[x,y]);*/
+            String whatToFind = null;
+            switch(this.goTxt.Text){
+                case "Br":whatToFind="▥";break;
+                case "S":whatToFind="▦";break;
+                case "W":whatToFind="▩";break;
+                case "B":whatToFind="▢";break;
+                case "C":whatToFind="◉";break;
+                case "L":whatToFind="☩";break;
+            }
+            //this.goTxt.Text = whatToFind;
+            /*List<MapItem> path = con.getPathTo(itList, itList[myPlayer.PositionY, myPlayer.PositionX], whatToFind);
+            String next = null;
+            try
+            {
+                 next = con.next(path);
+            }catch(Exception c){
+                Console.WriteLine("next: "+c);
+            }
+            Console.WriteLine("SSSNNN: " + next);
+            //if (con.shouldShoot(itList, itList[myPlayer.PositionX, myPlayer.PositionY]))
+                //Console.WriteLine("Shoot.....................");
+            //con.shoot();
+            com.sendData(next); */     
+            Thread threadDo = new Thread(() => con.controll());
+            Thread threadShoot = new Thread(() => con.shoot());
+            //threadDo.Priority = ThreadPriority.Highest;
+            //threadShoot.Priority = ThreadPriority.BelowNormal;
+            threadDo.Start();
+            //threadShoot.Start();
+
+            //con.findCoins();
         }
 
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

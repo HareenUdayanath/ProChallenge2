@@ -8,11 +8,11 @@ namespace TankClient.Support
 {
     class DynamicItem
     {
-        private int positionX;
-        private int positionY;
+        private int positionX;      
+        private int positionY;        
         private int lifeTime = -1;
-        private int appearTime = -1;
-        private int disappearTime = -1;
+        private long appearTime = -1;
+       
 
         public DynamicItem(int x,int y) 
         {
@@ -27,17 +27,27 @@ namespace TankClient.Support
             set { lifeTime = value; }
         }
 
-        public int AppearTime
+        public long AppearTime
         {
             get { return appearTime; }
             set { appearTime = value; }
         }
 
-        public int DisappearTime
+        public int PositionY
         {
-            get { return disappearTime; }
-            set { disappearTime = value; }
+            get { return positionY; }
+            set { positionY = value; }
         }
 
+        public int PositionX
+        {
+            get { return positionX; }
+            set { positionX = value; }
+        }
+
+        public long getRemainingTime()
+        {
+            return lifeTime - (DecodeOperations.clock.getTime() - appearTime);
+        }
     }
 }

@@ -101,11 +101,13 @@ namespace TankClient
             this.label6 = new System.Windows.Forms.Label();
             this.bricks_txt = new System.Windows.Forms.TextBox();
             this.msg_txt = new System.Windows.Forms.TextBox();
+            this.goTxt = new System.Windows.Forms.TextBox();
+            this.goBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(467, 315);
+            this.button1.Location = new System.Drawing.Point(408, 315);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(53, 41);
             this.button1.TabIndex = 0;
@@ -232,7 +234,6 @@ namespace TankClient
             this.label5.Size = new System.Drawing.Size(75, 13);
             this.label5.TabIndex = 14;
             this.label5.Text = "coins     = \"◉\"";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label6
             // 
@@ -259,12 +260,31 @@ namespace TankClient
             this.msg_txt.Size = new System.Drawing.Size(269, 79);
             this.msg_txt.TabIndex = 17;
             // 
+            // goTxt
+            // 
+            this.goTxt.Location = new System.Drawing.Point(467, 315);
+            this.goTxt.Name = "goTxt";
+            this.goTxt.Size = new System.Drawing.Size(100, 20);
+            this.goTxt.TabIndex = 18;
+            // 
+            // goBtn
+            // 
+            this.goBtn.Location = new System.Drawing.Point(608, 315);
+            this.goBtn.Name = "goBtn";
+            this.goBtn.Size = new System.Drawing.Size(75, 23);
+            this.goBtn.TabIndex = 19;
+            this.goBtn.Text = "Go";
+            this.goBtn.UseVisualStyleBackColor = true;
+            this.goBtn.Click += new System.EventHandler(this.goBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(731, 463);
+            this.Controls.Add(this.goBtn);
+            this.Controls.Add(this.goTxt);
             this.Controls.Add(this.msg_txt);
             this.Controls.Add(this.bricks_txt);
             this.Controls.Add(this.label6);
@@ -309,6 +329,8 @@ namespace TankClient
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox bricks_txt;
         private System.Windows.Forms.TextBox msg_txt;
+        private System.Windows.Forms.TextBox goTxt;
+        private System.Windows.Forms.Button goBtn;
     }
 }
 

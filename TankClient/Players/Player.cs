@@ -17,6 +17,8 @@ namespace TankClient.Players
         private int coins;
         private int points;
 
+        
+
         public Player(int playerNo,int x,int y,int dir)
         {
             this.playerNo = playerNo;

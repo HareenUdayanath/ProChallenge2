@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\Clock.cs" />
+    <Compile Include="AI\Controller.cs" />
+    <Compile Include="AI\MapItem.cs" />
     <Compile Include="Communicator.cs" />
     <Compile Include="Contents\Brick.cs" />
     <Compile Include="Contents\Coin.cs" />
@@ -54,7 +57,7 @@
     <Compile Include="Contents\Stone.cs" />
     <Compile Include="Contents\Water.cs" />
     <Compile Include="Costants.cs" />
-    <Compile Include="Decoder.cs" />
+    <Compile Include="DecodeOperations.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

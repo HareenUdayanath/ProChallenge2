@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TankClient
 {
-    class Constants
+    public class Constants
     {
         public static string JOIN = "JOIN#";
         public static string UP = "UP#";
@@ -36,5 +36,10 @@ namespace TankClient
 
         public static string REQUESTERROR = "REQUEST_ERROR#";
         public static string SERVERERROR = "SERVER_ERROR#";
+
+        public static int NORTH = 0;
+        public static int EAST = 1;
+        public static int SOUTH = 2;
+        public static int WEST = 3;
     }
 }
