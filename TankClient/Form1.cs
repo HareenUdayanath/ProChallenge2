@@ -151,18 +151,7 @@ namespace TankClient
         private void button7_Click(object sender, EventArgs e)
         {
             com.sendData(Constants.JOIN);
-            /*String map = com.receiveData();
-            this.textBox1.AppendText(map);            
-            dec.setMap(map);                      
-            this.displayMap(dec.getMap());
-
-            map = com.receiveData();
-            this.textBox1.AppendText(map);
-            dec.setMap(map);
-            this.displayMap(dec.getMap());
-
-            map = com.receiveData();
-            this.textBox1.AppendText(map); */
+          
             int i=0;
             while(i++<10)
                 this.command_txt.AppendText(com.receiveData()+"\n");
@@ -188,13 +177,7 @@ namespace TankClient
             Console.WriteLine("A");
             MapItem[,] itList = con.createMapItemList(dc.getMap());
             Console.WriteLine("B");
-           /* int x = Int32.Parse(this.goTxt.Text.Split(',')[0]);
-            int y = Int32.Parse(this.goTxt.Text.Split(',')[1]);
-            Console.WriteLine("X: "+myPlayer.PositionX);
-            Console.WriteLine("Y: "+myPlayer.PositionY);
-            Console.WriteLine("NX: "+x);
-            Console.WriteLine("NY: "+y);
-            List<MapItem> path = con.getPath(itList, itList[myPlayer.PositionY,myPlayer.PositionX], itList[x,y]);*/
+          
             String whatToFind = null;
             switch(this.goTxt.Text){
                 case "Br":whatToFind="▥";break;
@@ -204,28 +187,11 @@ namespace TankClient
                 case "C":whatToFind="◉";break;
                 case "L":whatToFind="☩";break;
             }
-            //this.goTxt.Text = whatToFind;
-            /*List<MapItem> path = con.getPathTo(itList, itList[myPlayer.PositionY, myPlayer.PositionX], whatToFind);
-            String next = null;
-            try
-            {
-                 next = con.next(path);
-            }catch(Exception c){
-                Console.WriteLine("next: "+c);
-            }
-            Console.WriteLine("SSSNNN: " + next);
-            //if (con.shouldShoot(itList, itList[myPlayer.PositionX, myPlayer.PositionY]))
-                //Console.WriteLine("Shoot.....................");
-            //con.shoot();
-            com.sendData(next); */     
+           
             Thread threadDo = new Thread(() => con.controll());
-            Thread threadShoot = new Thread(() => con.shoot());
-            //threadDo.Priority = ThreadPriority.Highest;
-            //threadShoot.Priority = ThreadPriority.BelowNormal;
+           
             threadDo.Start();
-            //threadShoot.Start();
-
-            //con.findCoins();
+           
         }
 
     }

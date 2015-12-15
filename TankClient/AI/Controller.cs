@@ -290,6 +290,138 @@ namespace TankClient.AI
             return null;
         }
 
+        private MapItem bfsColl(MapItem[,] map, MapItem s, String[] whatToFind)
+        {
+             
+            int playerX = Int32.Parse(s.Name[0].ToString());
+            int playerY = Int32.Parse(s.Name[2].ToString());
+            //Console.WriteLine("WEWEWE: " + whatToFind);
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    map[j, i].Colour = this.WHITE;
+                    map[j, i].Pre = null;
+                    map[j, i].Dis = Int32.MaxValue - 1;
+                }
+            }
+            s.Colour = this.GRAY;
+            s.Dis = 0;
+
+
+            Queue<MapItem> Q = new Queue<MapItem>();
+            Q.Enqueue(s);
+            while (Q.Count > 0)
+            {
+                MapItem u = Q.Dequeue();
+                int x = Int32.Parse(u.Name[0].ToString());
+                int y = Int32.Parse(u.Name[2].ToString());
+
+                try
+                {
+                    //if (map[y, x - 1].Contain.Equals(MapItem.BLANK))
+                    if (blankList.Contains(map[y, x - 1].Contain, StringComparer.Ordinal))
+                    {
+                        if (map[y, x - 1].Colour.Equals(this.WHITE))
+                        {
+                            map[y, x - 1].Colour = this.GRAY;
+                            map[y, x - 1].Dis = u.Dis + 1;
+                            map[y, x - 1].Pre = u;
+                            Q.Enqueue(map[y, x - 1]);
+                        }
+
+                    }
+                    if (playerX != x - 1 && playerY!=y && whatToFind.Contains(map[y, x - 1].Contain, StringComparer.Ordinal))                    
+                    {
+                        //Console.WriteLine(y+" " +(x-1)+" "+ map[y, x - 1].Contain);
+                        map[y, x - 1].Pre = u;
+                        return map[y, x - 1];
+                    }
+                }
+                catch (Exception e)
+                {
+                }
+                try
+                {
+                    //if (map[y - 1, x].Contain.Equals(MapItem.BLANK))
+                    if (blankList.Contains(map[y - 1, x].Contain, StringComparer.Ordinal))
+                    {
+                        if (map[y - 1, x].Colour.Equals(this.WHITE))
+                        {
+                            map[y - 1, x].Colour = this.GRAY;
+                            map[y - 1, x].Dis = u.Dis + 1;
+                            map[y - 1, x].Pre = u;
+                            Q.Enqueue(map[y - 1, x]);
+                        }
+
+                    }
+
+                    if (playerX != x && playerY != y - 1 && whatToFind.Contains(map[y - 1, x].Contain, StringComparer.Ordinal))
+                    {
+                        //Console.WriteLine((y-1) + " " + x + " " + map[y, x - 1].Contain);
+                        map[y - 1, x].Pre = u;
+                        return map[y - 1, x];
+                    }
+
+                }
+                catch (Exception e)
+                {
+                }
+                try
+                {
+                    //if (map[y, x + 1].Contain.Equals(MapItem.BLANK))
+                    if (blankList.Contains(map[y, x + 1].Contain, StringComparer.Ordinal))
+                    {
+                        if (map[y, x + 1].Colour.Equals(this.WHITE))
+                        {
+                            map[y, x + 1].Colour = this.GRAY;
+                            map[y, x + 1].Dis = u.Dis + 1;
+                            map[y, x + 1].Pre = u;
+                            Q.Enqueue(map[y, x + 1]);
+                        }
+
+                    }
+                    if (playerX != x + 1 && playerY != y && whatToFind.Contains(map[y, x + 1].Contain, StringComparer.Ordinal))                   
+                    {
+                        //Console.WriteLine(y + " " + (x+1) + " " + map[y, x - 1].Contain);
+                        map[y, x + 1].Pre = u;
+                        return map[y, x + 1];
+                    }
+
+                }
+                catch (Exception e)
+                {
+                }
+                try
+                {
+                    //if (map[y + 1, x].Contain.Equals(MapItem.BLANK))
+                    if (blankList.Contains(map[y + 1, x].Contain, StringComparer.Ordinal))
+                    {
+                        if (map[y + 1, x].Colour.Equals(this.WHITE))
+                        {
+                            map[y + 1, x].Colour = this.GRAY;
+                            map[y + 1, x].Dis = u.Dis + 1;
+                            map[y + 1, x].Pre = u;
+                            Q.Enqueue(map[y + 1, x]);
+                        }
+
+                    }
+                    if (playerX != x && playerY != y + 1 && whatToFind.Contains(map[y + 1, x].Contain, StringComparer.Ordinal))                   
+                    {
+                        //Console.WriteLine((y+1) + " " + x + " " + map[y, x - 1].Contain);
+                        map[y + 1, x].Pre = u;
+                        return map[y + 1, x];
+                    }
+
+                }
+                catch (Exception e)
+                {
+                }
+                u.Colour = this.BLACK;
+            }
+            return null;
+        }
+
         public List<MapItem> getPath(MapItem[,] map, MapItem s, MapItem d)
         {
             if (s.Equals(this.source) && d.Equals(this.destination) && this.preList != null)
@@ -333,6 +465,30 @@ namespace TankClient.AI
                 return preList;
 
             MapItem d = this.bfs(map, s, whatToFind);
+
+            if (d == null)
+                return null;
+            Console.WriteLine("SSSSSSS");
+            preList.Add(d);
+            MapItem pre = d.Pre;
+
+            while (true)
+            {
+                preList.Add(pre);
+                if (pre.Name.Equals(s.Name))
+                    break;
+                else
+                    pre = pre.Pre;
+            }
+
+            preList.Reverse();
+            return preList;
+        }
+        public List<MapItem> getPathToCol(MapItem[,] map, MapItem s, String[] whatToFind)
+        {            
+            this.source = s;           
+            preList = new List<MapItem>();
+            MapItem d = this.bfsColl(map, s, whatToFind);
 
             if (d == null)
                 return null;
@@ -463,26 +619,7 @@ namespace TankClient.AI
             while (true)
             {
                 MapItem[,] itList = con.createMapItemList(dc.getMap());
-                //List<MapItem> path = con.getPath(itList, itList[myPlayer.PositionY, myPlayer.PositionX], itList[x, y]);
-                String whatToFind = null;
-
-                /*if (myPlayer.Health < 50)
-                    whatToFind = DecodeOperations.lifePackSimbol;
-                else
-                    whatToFind = DecodeOperations.coinSimbol;
-                List<MapItem> path = con.getPathTo(itList, itList[myPlayer.PositionY, myPlayer.PositionX], whatToFind);
-                String next = null;
-                try
-                {
-                    next = con.next(path);
-                    Console.WriteLine(next);
-                }
-                catch (Exception c)
-                {
-                    Console.WriteLine("next: " + c);
-                }
-
-                com.sendData(next);*/
+               
                 if (con.shouldShoot(itList, itList[myPlayer.PositionY, myPlayer.PositionX]))
                 {
                     com.sendData(Constants.SHOOT);
@@ -495,12 +632,14 @@ namespace TankClient.AI
                 else if (myPlayer.Health < 50)
                 {
                     if (!findLifePack())
-                        findCoins();
+                        if(!findCoins())
+                            findTanks();
                 }
                 else
                 {
                     if (!findCoins())
-                        findLifePack();
+                        if (!findLifePack())
+                            findTanks();
                 }
                 Thread.Sleep(1200);
             }
@@ -511,8 +650,9 @@ namespace TankClient.AI
             Communicator com = Communicator.GetInstance();
             Controller con = Controller.GetInstance();
             Player myPlayer = dc.getPlayer(dc.PlayerNo);
-            MapItem[,] itList = con.createMapItemList(dc.getMap());            
-            String whatToFind = whatToFind = DecodeOperations.coinSimbol;       
+            MapItem[,] itList = con.createMapItemList(dc.getMap());
+            this.whatToFind = DecodeOperations.coinSimbol;      
+            String whatToFind = DecodeOperations.coinSimbol;       
             List<MapItem> path = con.getPathTo(itList, itList[myPlayer.PositionY, myPlayer.PositionX], whatToFind);
             if (path == null)
                 return false;
@@ -544,7 +684,8 @@ namespace TankClient.AI
             Controller con = Controller.GetInstance();
             Player myPlayer = dc.getPlayer(dc.PlayerNo);
             MapItem[,] itList = con.createMapItemList(dc.getMap());
-            String whatToFind = whatToFind = DecodeOperations.lifePackSimbol;
+            this.whatToFind = DecodeOperations.lifePackSimbol;
+            String whatToFind  = DecodeOperations.lifePackSimbol;
             List<MapItem> path = con.getPathTo(itList, itList[myPlayer.PositionY, myPlayer.PositionX], whatToFind);
             if (path == null)
                 return false;
@@ -571,6 +712,36 @@ namespace TankClient.AI
 
         }
 
+        public bool findTanks()
+        {
+            DecodeOperations dc = DecodeOperations.GetInstance();
+            Communicator com = Communicator.GetInstance();
+            Controller con = Controller.GetInstance();
+            Player myPlayer = dc.getPlayer(dc.PlayerNo);
+            MapItem[,] itList = con.createMapItemList(dc.getMap());
+            
+            String[] whatToFind  = DecodeOperations.playerDir;
+            List<MapItem> path = con.getPathToCol(itList, itList[myPlayer.PositionY, myPlayer.PositionX], whatToFind);
+            
+            if (path == null||path.Count()==0)
+                return false;
+           
+            String next = null;
+            try
+            {
+                next = con.next(path);
+                Console.WriteLine("Tank: "+next);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("next: " + ex);
+            }
+            Monitor.Enter(com);
+            com.sendData(next);
+            Monitor.Exit(com);
+            return true;
+
+        }
         /*
          * This methods checks if there some tank is front of ouers, if it is then shoot  
          */
